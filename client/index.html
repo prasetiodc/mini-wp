@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Mini Wordpress</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
+	<link rel="stylesheet" href="css/style.css" type="text/css">
+</head>
+<body>
+
+	<div id="header">
+		<div class="navbar" id="nav-left">
+				<i class="fab fa-wordpress"> My Site</i>
+		</div>
+		<div class="navbar">
+				<button type="button" class="btn btn-light" onclick="createArticle()">Write</button>
+				<i class="fas fa-user-circle"></i>
+				<i class="fas fa-comments"></i>
+		</div>
+	</div>
+
+	<div class="list-group list-group-flush" id='navbar-left'>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-desktop"> View Site</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-signal"> Stat</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-history"> Activity</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-sync-alt"> Plan</i></a>
+			Manage
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-sticky-note"> Site Page</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-align-left"> Blog Posts</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-image"> Media</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-comments"> Comments</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-rss-square"> Feedback</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-plug"> Plugins</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-cloud-download-alt"> Import</i></a>
+			Personalize
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-tools"> Customize</i></a>
+			Configure
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-money-bill-alt"> Earn</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-project-diagram"> Sharing</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-user-alt"> People</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-globe"> Domains</i></a>
+			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-cog"> Setting</i></a>
+	</div>
+
+	<div id="container">
+		<div class="rowRight">
+			<div class="btn-group" role="group" aria-label="Basic example">
+				<button type="button" class="btn btn-secondary" onclick="published()">Published</button>
+				<button type="button" class="btn btn-secondary" onclick="draft()">Drafts</button>
+			</div>
+			<div><i class="fas fa-search"></i></div>
+		</div>
+		<ul class="rowRight list-group list-group-flush" id="listPublished">
+      <li class="list-group-item">article published
+        <div>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        </div>
+      </li>
+      <li class="list-group-item">article published
+        <div>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        </div>
+      </li>
+      <li class="list-group-item">article published
+        <div>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        </div>
+      </li>
+      <li class="list-group-item">article published
+        <div>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        </div>
+      </li>
+      <li class="list-group-item">article published
+        <div>
+          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+        </div>
+      </li>
+		</ul>
+		<ul class="list-group list-group-flush" id="listDraft">
+        <li class="list-group-item">Draft article 
+            <div>
+              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            </div>
+          </li>
+          <li class="list-group-item">Draft article 
+            <div>
+              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            </div>
+          </li>
+          <li class="list-group-item">Draft article 
+            <div>
+              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            </div>
+          </li>
+          <li class="list-group-item">Draft article 
+            <div>
+              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            </div>
+          </li>
+          <li class="list-group-item">Draft article 
+            <div>
+              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+            </div>
+          </li>
+    </ul>
+    
+
+		<form id="formCreateArticle" onsubmit="">
+      <h3>Create Article</h3>
+			<div class="form-group row" >
+			  <label for="title" class="col-sm-3 col-form-label">Title Article</label>
+			  <div class="col-sm-9">
+				<input type="text" class="form-control" id="title" placeholder="Title">
+			  </div>
+			</div>
+			<div class="form-group row">
+			  <label for="description" class="col-sm-3 col-form-label">Description</label>
+			  <div class="col-sm-9">
+				<input type="text" class="form-control" id="description" placeholder="Description">
+			  </div>
+      </div>
+      <div class="form-group row">
+			  <label for="tag" class="col-sm-3 col-form-label">Tag</label>
+			  <div class="col-sm-9">
+				<input type="text" class="form-control" id="tag" placeholder="Tag">
+			  </div>
+			</div>
+			<fieldset class="form-group">
+			  <div class="row">
+          <legend class="col-form-label col-sm-3 pt-0">Status</legend>
+          <div class="col-sm-9">
+            <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="published" checked>
+            <label class="form-check-label" for="gridRadios1">
+              Published
+            </label>
+            </div>
+            <div class="form-check">
+            <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="draft">
+            <label class="form-check-label" for="gridRadios2">
+              Draft
+            </label>
+            </div>
+				</div>
+			  </div>
+			</fieldset>
+			<div class="form-group row">
+			  <div class="col-sm-9">
+				<button type="submit" class="btn btn-primary">Save</button>
+			  </div>
+			</div>
+		  </form>
+	</div>
+
+  <!-- MODAL -->
+  <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Warning!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure to update this data?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Warning!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          Are you sure to delete this data?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+		<script src="/js/index.js"></script>
+</body>
+</html>
