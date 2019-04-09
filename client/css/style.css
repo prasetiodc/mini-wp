@@ -42,7 +42,7 @@ body{
 }
 
 .rowRight{
-    width: 80%;
+    width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -75,7 +75,10 @@ body{
 }
 
 #listPublished{
-    margin-top: 10px;
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
 
 #listDraft{
@@ -93,4 +96,27 @@ h3{
 #formCreateArticle{
     margin-top: 30px;
     border: 1px 
+}
+
+#app{
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px;
+    flex-direction: column;
+}
+
+.headerCard{
+    display: flex;
+    justify-content: space-between;     
+}
+
+.card{
+    width: 90%;
+    margin: 5px 0;
+}
+
+#search{
+    display: flex;
+    align-items: center;
 }

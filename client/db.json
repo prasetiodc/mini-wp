@@ -1,0 +1,44 @@
+{
+  "posts": [
+    {
+      "id": 1,
+      "title": "article 1",
+      "content": "content article 1"
+    },
+    {
+      "id": 2,
+      "title": "article 2",
+      "content": "content article 2"
+    },
+    {
+      "id": 3,
+      "title": "article 3",
+      "content": "content article 3"
+    },
+    {
+      "id": 4,
+      "title": "article 4",
+      "content": "content article 4"
+    },
+    {
+      "id": 5,
+      "title": "article 5",
+      "content": "content article 5"
+    },
+    {
+      "title": "article 6",
+      "content": "content article 6",
+      "id": 6
+    },
+    {
+      "title": "article 7",
+      "content": "content article 7",
+      "id": 7
+    },
+    {
+      "title": "article 8",
+      "content": "content article 8",
+      "id": 8
+    }
+  ]
+}

@@ -9,21 +9,26 @@
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/solid.css" integrity="sha384-QokYePQSOwpBDuhlHOsX0ymF6R/vLk/UQVz3WHa6wygxI5oGTmDTv8wahFOSspdm" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/brands.css" integrity="sha384-n9+6/aSqa9lBidZMRCQHTHKJscPq6NW4pCQBiMmHdUCvPN8ZOg2zJJTkC7WIezWv" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/fontawesome.css" integrity="sha384-vd1e11sR28tEK9YANUtpIOdjGW14pS87bUBuOIoBILVWLFnS+MCX9T6MMf0VdPGq" crossorigin="anonymous">
-	<link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/style.css" type="text/css">
+  <link rel="stylesheet" href="css/vueWysiwyg.css">
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+
 </head>
 <body>
-
+    <div id="app">
 	<div id="header">
 		<div class="navbar" id="nav-left">
 				<i class="fab fa-wordpress"> My Site</i>
 		</div>
 		<div class="navbar">
-				<button type="button" class="btn btn-light" onclick="createArticle()">Write</button>
+				<button type="button" class="btn btn-light" v-on:click="showCreate">Write</button>
 				<i class="fas fa-user-circle"></i>
 				<i class="fas fa-comments"></i>
 		</div>
 	</div>
-
+ 
 	<div class="list-group list-group-flush" id='navbar-left'>
 			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-desktop"> View Site</i></a>
 			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-signal"> Stat</i></a>
@@ -47,100 +52,64 @@
 			<a href="#" class="list-group-item list-group-item-action"><i class="fas fa-cog"> Setting</i></a>
 	</div>
 
-	<div id="container">
-		<div class="rowRight">
-			<div class="btn-group" role="group" aria-label="Basic example">
-				<button type="button" class="btn btn-secondary" onclick="published()">Published</button>
-				<button type="button" class="btn btn-secondary" onclick="draft()">Drafts</button>
-			</div>
-			<div><i class="fas fa-search"></i></div>
-		</div>
-		<ul class="rowRight list-group list-group-flush" id="listPublished">
-      <li class="list-group-item">article published
-        <div>
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+  <div id="container">
+    <div class="rowRight" >
+      <div class="btn-group" role="group" aria-label="Basic example">
+        <button type="button" class="btn btn-secondary" v-on:click="showPublished">Published</button>
+        <button type="button" class="btn btn-secondary" v-on:click="showDraft">Drafts</button>
+      </div>
+      <div id="search"><input type="text" class="form-control" v-model="titleSearch" placeholder="Title" v-if="isSearch=='true'"><i class="fas fa-search" v-on:click="showSearch"></i>
+      </div>
+    </div>
+
+    <!-- {{ message }} -->
+    <div class="card" v-if="statusShow=='1'" v-for="article in findArticles" >
+      <div class="card-body" >
+        <div class="headerCard">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <div>
+            <button type="button" class="btn btn-success btn-sm" v-on:click="editArticle(article._id, article.title, article.content)">Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+          </div>
         </div>
-      </li>
-      <li class="list-group-item">article published
         <div>
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+          <h6 class="card-subtitle mb-2 text-muted">Created At</h6>
+          <p class="card-text">{{ article.content }}</p>
         </div>
-      </li>
-      <li class="list-group-item">article published
+      </div>          
+    </div>
+		
+		<div class="card" v-if="statusShow=='2'" v-for="article in findArticles" >
+      <div class="card-body" >
+        <div class="headerCard">
+          <h5 class="card-title">{{ article.title }}</h5>
+          <div>
+            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
+            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+          </div>
+        </div>
         <div>
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
+          <h6 class="card-subtitle mb-2 text-muted">Created At</h6>
+          <p class="card-text">{{ article.content }}</p>
         </div>
-      </li>
-      <li class="list-group-item">article published
-        <div>
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-        </div>
-      </li>
-      <li class="list-group-item">article published
-        <div>
-          <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-        </div>
-      </li>
-		</ul>
-		<ul class="list-group list-group-flush" id="listDraft">
-        <li class="list-group-item">Draft article 
-            <div>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-            </div>
-          </li>
-          <li class="list-group-item">Draft article 
-            <div>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-            </div>
-          </li>
-          <li class="list-group-item">Draft article 
-            <div>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-            </div>
-          </li>
-          <li class="list-group-item">Draft article 
-            <div>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-            </div>
-          </li>
-          <li class="list-group-item">Draft article 
-            <div>
-              <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#modalEdit">Edit</button>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#modalDelete">Delete</button>
-            </div>
-          </li>
-    </ul>
+      </div>          
+    </div>
     
 
-		<form id="formCreateArticle" onsubmit="">
+		<form id="formCreateArticle" v-if="statusShow=='3'"  v-on:submit.prevent="addTodo" method="POST">
       <h3>Create Article</h3>
 			<div class="form-group row" >
 			  <label for="title" class="col-sm-3 col-form-label">Title Article</label>
 			  <div class="col-sm-9">
-				<input type="text" class="form-control" id="title" placeholder="Title">
+				<input type="text" class="form-control" id="title" v-model="title" placeholder="Title">
 			  </div>
 			</div>
 			<div class="form-group row">
-			  <label for="description" class="col-sm-3 col-form-label">Description</label>
+			  <label for="content" class="col-sm-3 col-form-label">Content</label>
 			  <div class="col-sm-9">
-				<input type="text" class="form-control" id="description" placeholder="Description">
+				<input type="text" class="form-control" id="content" v-model="content" placeholder="Content">
 			  </div>
       </div>
-      <div class="form-group row">
-			  <label for="tag" class="col-sm-3 col-form-label">Tag</label>
-			  <div class="col-sm-9">
-				<input type="text" class="form-control" id="tag" placeholder="Tag">
-			  </div>
-			</div>
 			<fieldset class="form-group">
 			  <div class="row">
           <legend class="col-form-label col-sm-3 pt-0">Status</legend>
@@ -165,9 +134,49 @@
 				<button type="submit" class="btn btn-primary">Save</button>
 			  </div>
 			</div>
-		  </form>
-	</div>
-
+    </form>
+    
+    <form id="formEditArticle" v-if="statusShow=='4'"  v-on:submit.prevent="editTodo" method="POST">
+        <h3>Edit Article</h3>
+        <div class="form-group row" >
+          <label for="title" class="col-sm-3 col-form-label">Title Article</label>
+          <div class="col-sm-9">
+          <input type="text" class="form-control" id="title" v-model="title" placeholder="Title">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="content" class="col-sm-3 col-form-label">Content</label>
+          <div class="col-sm-9">
+          <input type="text" class="form-control" id="content" v-model="content" placeholder="Content">
+          </div>
+        </div>
+        <fieldset class="form-group">
+          <div class="row">
+            <legend class="col-form-label col-sm-3 pt-0">Status</legend>
+            <div class="col-sm-9">
+              <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="published" checked>
+              <label class="form-check-label" for="gridRadios1">
+                Published
+              </label>
+              </div>
+              <div class="form-check">
+              <input class="form-check-input" type="radio" name="status" id="gridRadios2" value="draft">
+              <label class="form-check-label" for="gridRadios2">
+                Draft
+              </label>
+              </div>
+          </div>
+          </div>
+        </fieldset>
+        <div class="form-group row">
+          <div class="col-sm-9">
+            <button type="submit" class="btn btn-primary" data-toggle="modal" data-target="#modalEdit" >Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+	
   <!-- MODAL -->
   <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -183,12 +192,11 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-primary" >Save changes</button>
         </div>
       </div>
     </div>
   </div>
-
   <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -209,10 +217,92 @@
     </div>
   </div>
 
+</div>
 
+
+  <script>
+    var serverURL = 'http://localhost:3000'
+    new Vue({
+      el:'#app',
+      data:{
+        statusShow: '',
+        isSearch: '',
+        titleSearch: '',
+        id:'',
+        title: '',
+        content: '',
+        articles: [],
+        findArticles: []
+      },
+        
+      created(){
+        axios.get(serverURL+'/articles')
+        .then(({data})=>{
+          this.articles = (data)
+          this.findArticles = (data)
+        })
+      },
+      watch: {
+          titleSearch: function(val){
+            this.findArticles = this.articles.filter(el=>{              
+              if (el.title.match(new RegExp(val))){
+                return el
+              }
+            })
+          }
+        },
+      methods:{
+        addTodo(){
+          axios.post(serverURL+'/articles', {title: this.title, content: this.content})
+          .then((response)=>{
+            this.article.push(response)
+            this.statusShow = '1'
+          })
+          .catch(err=>{
+            console.log(err);
+            
+          })
+        },
+        editTodo(id, title, content){
+          
+          axios.put(serverURL+'/articles/'+this.id, {title: this.title, content: this.content})
+          .then((response)=>{
+            this.statusShow = '1'
+          })
+          .catch(err=>{
+            console.log(err);
+            
+          })
+        },
+        editArticle(id, title, content){
+          this.id = id,
+          this.title = title,
+          this.content = content
+          this.statusShow = "4"
+        },
+        showSearch(){
+          if(!this.isSearch) this.isSearch = "true"
+          else this.isSearch = ""
+        },
+        showPublished(){
+          this.statusShow='1'
+        },
+        showDraft(){
+          this.statusShow='2'
+        },
+        showCreate(){
+          this.statusShow='3'
+        }
+
+      }
+    });
+
+
+  </script>
 		<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-		<script src="/js/index.js"></script>
+    <script src="/js/index.js"></script>
+    <!-- <script src="/js/vueWysiwyg.js"></script> -->
 </body>
 </html>
