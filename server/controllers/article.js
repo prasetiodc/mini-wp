@@ -12,10 +12,13 @@ class Article{
     }
 
     static create(req, res){
+        console.log(req.body);
+        
         let newArticle = new Model({
             title: req.body.title,
             content: req.body.content,
-            created_at: new Date
+            created_at: new Date,
+            status: req.body.status
         })
         Model.create(newArticle)
         .then(data=>{
@@ -50,6 +53,7 @@ class Article{
         let newData = {
             title: req.body.title,
             content: req.body.content,
+            status: req.body.status
         }
         Model.findOneAndUpdate({_id:req.params.id}, { $set: newData}, {new:true})
         .then(data=>{
