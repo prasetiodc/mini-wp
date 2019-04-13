@@ -36,11 +36,6 @@ body{
     border: 1px solid rgb(221, 219, 219);
 }
 
-.list-group-item{
-    height:40px;
-    display: flex;
-}
-
 .rowRight{
     width: 100%;
     display: flex;
@@ -68,7 +63,9 @@ body{
 }
 
 .list-group-item{
-    width: 100%;
+    height:40px;
+    display: flex;
+    width: 110%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -111,11 +108,15 @@ h3{
 }
 
 .card{
-    width: 90%;
+    width: 100%;
     margin: 5px 0;
 }
 
 #search{
     display: flex;
     align-items: center;
+}
+
+.list-group-item.list-group-item-action{
+    width: 110%
 }

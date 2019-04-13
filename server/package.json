@@ -6,9 +6,12 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.16.4",
-    "mongoose": "^5.5.0"
+    "mongoose": "^5.5.0",
+    "vue": "^2.6.10"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "dotenv": "^7.0.0"
+  },
   "scripts": {
     "dev": "nodemon app.js",
     "start": "node app.js",
