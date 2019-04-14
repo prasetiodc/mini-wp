@@ -5,7 +5,12 @@ let articleSchema = new Schema({
     title: String,
     content: String,
     created_at: Date,
-    status: Boolean
+    status: Boolean,
+    author: {
+        type: Schema.Types.ObjectId,
+        ref:"User"
+    },
+    featured_image: String,
 })
 
 let Article = mongoose.model('Articles',articleSchema)

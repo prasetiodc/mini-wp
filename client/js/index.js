@@ -1,19 +1,33 @@
 var serverURL = 'http://localhost:3000'
-new Vue({
+let app = new Vue({
   el:'#app',
   components: {
       wysiwyg: vueWysiwyg.default.component,
     },
   data:{
+    token: '',
+    
+    //user
+    fullname:'',
+    email:'',
+    password:'',
+
+    //for condition
+    isLogin: '0',
     statusShow: '',
     isSearch: '',
     titleSearch: '',
+
+    //article
     id:'',
     title: '',
     content: '',
     status: '',
+    author: '',
+    featured_image: null,
+
+    //list article
     articles: [],
-    // findArticles: [],
     articlesPublish: [],
     articlesDraft: []
   },
@@ -24,8 +38,6 @@ new Vue({
 
   watch: {
       titleSearch: function(val){
-        console.log(this.titleSearch);
-        
         this.articlesDraft = this.articles.filter(el=>{
           if(el.status==0){
             if (el.title.toLowerCase().match(new RegExp(val.toLowerCase()))){
@@ -45,7 +57,12 @@ new Vue({
 
   methods:{
     loadArticle(){
-      axios.get(serverURL+'/articles')
+      axios.get(serverURL+'/articles', 
+      {
+        headers: {
+          auth : this.token
+        }
+      })
       .then(({data})=>{
         data = data.reverse()
         this.articles = (data)
@@ -63,48 +80,68 @@ new Vue({
         })
       })
     },
+
     addArticle(){
-      axios.post(serverURL+'/articles', {title: this.title, content: this.content, status: this.status})
+      console.log(this.featured_image);
+      
+      axios.post(serverURL+'/articles', {title: this.title, content: this.content, status: this.status, featured_image:this.featured_image}, 
+      {
+        headers: {
+          auth : this.token
+        }
+      })
       .then(({data})=>{
         if(this.status==1) {
-          this.articlesPublish.unshift(data)
-          console.log("MASUK 2");
+          this.loadArticle()
           this.statusShow = '1'
         }else if(this.status==0){
-          this.articlesDraft.unshift(data)
-          console.log("MASUK 1");
+          this.loadArticle()
           this.statusShow = '2'
         } 
       })
       .catch(err=>{
+        console.log();
+        
         console.log(err);
       })
     },
+
     actionEditArticle(){
-      let indexArticle
-      axios.put(serverURL+'/articles/'+this.id, {title: this.title, content: this.content, status: this.status})
+
+      axios.put(serverURL+'/articles/'+this.id, {title: this.title, content: this.content, status: this.status}, 
+      {
+        headers: {
+          auth : this.token
+        }
+      })
       .then(({data})=>{
-      
-        console.log(indexArticle);
-        
-        this.statusShow = '1'
+        this.loadArticle()
+        app.statusShow = '1'
       })
       .catch(err=>{
-        console.log(err);
+        console.log("ERROR EDIT");
         
+        console.log(err);
       })
     },
-    editArticle(id, title, content, status){
+    
+    editArticle({id, title, content, status}){
       this.id = id,
       this.title = title,
       this.content = content,
       this.status = status,
-      this.statusShow = "4"
+      this.statusShow = '4'
     },
+
     actionDeleteArticle(id){
-      axios.delete(serverURL+'/articles/'+id)
+      axios.delete(serverURL+'/articles/'+id, 
+      {
+        headers: {
+          auth : this.token
+        }
+      })
       .then((response)=>{
-        console.log(response);
+        this.loadArticle()
         
       })
       .catch(err=>{
@@ -112,47 +149,85 @@ new Vue({
         
       })
     },
+
     deleteArticle(id){
       this.id = id
     },
+
     showSearch(){
       if(!this.isSearch) this.isSearch = "true"
       else this.isSearch = ""
     },
+
     showPublished(){
       this.statusShow='1'
     },
+
     showDraft(){
       this.statusShow='2'
     },
+
     showCreate(){
       this.id = '',
       this.title = '',
       this.content = '',
       this.status = '',
       this.statusShow='3'
-    }
+    },
 
-  },
+    signup(){
+      axios.post(serverURL+'/users',{fullname:this.fullname, email:this.email, password:this.password})
+      .then(({data})=>{
+        this.fullname=''
+        this.email=''
+        this.password=''
+        swal("Registered!", "You has registered!", "success");
+        this.isLogin='0'
+      })
+      .catch(err=>{
+        swal("", "FAIL", "warning");
+        console.log("REGISTER ERROR");
+      })
+    },
+
+    signin(){
+      axios.post(serverURL+'/users/login',{email:this.email, password:this.password})
+      .then(({data})=>{
+        this.token = data
+        this.email=''
+        this.password=''
+        this.isLogin='1'
+      })
+      .catch(err=>{
+        swal("", "LOGIN FAIL", "warning");
+
+        console.log("LOGIN ERROR");
+      })
+    },
+    register(){
+      this.isLogin="2"
+    },
+    uploadImage(event) {
+      this.featured_image = event.target.files[0]
+    }
+  }
   
 });
 
 Vue.component('articles-publish',{
   props: ['articleChild','statusShow'],
-  data(){
-    return{
-    }
-  },
   methods:{
-    edit(){
-      this.$emit('edit', {_id, title, content, status})
-    }
+    hapus(id){
+      this.$emit('delete', id)
+    },
+    sunting({id, title, content, status}){
+      this.$emit('edit', {id, title, content, status})
+    },
   },
   template: `
   <div style="width: 90%;">
     <b-card v-if="statusShow=='1'" v-for="article in articleChild" >    
-      <artikel v-bind:artikels="article"> </artikel>
-      <!--<artikel v-bind:artikels="article" @click:edit(_id, title, content, status)="edit(_id, title, content, status)"> </artikel>-->
+      <artikel v-bind:artikels="article" v-on:edit="sunting" v-on:delete="hapus" > </artikel>
     </b-card>
   </div>
   `
@@ -171,28 +246,23 @@ Vue.component('articles-draft', {
 
 Vue.component('artikel',{
   props: ['artikels'],
-  data(){
-    return{
-      // _id: this.artikels._id, 
-      // title: this.artikels.title,
-      // content: this.artikels.content,
-      // status: this.artikels.status
-    }
-  },
   methods:{
-    // edit(){
-    //   this.$emit('edit', {_id: this._id, title: this.title, content:this.content, status:this.status})
-    // }
+    editArticle(id, title, content, status){
+      this.$emit('edit', {id, title, content, status})
+    },
+    actionDeleteArticle(id){
+      this.$emit('delete', id)
+    }
   },
   template: `
   <div>
     <div class="headerCard">
-    <b-card-text>
+    <b-card-text> 
       <h4 class="card-title">{{ artikels.title }}</h4>
     </b-card-text>
       <div>
-        <b-button variant="success" size="sm">Edit</b-button>
-        <!--<b-button v-on:click="edit(artikels._id, artikels.title, artikels.content, artikels.status)" variant="success" size="sm">Edit</b-button>-->
+        <!--<b-button variant="success" size="sm">Edit</b-button>-->
+        <b-button v-on:click="editArticle(artikels._id, artikels.title, artikels.content, artikels.status)" variant="success" size="sm">Edit</b-button>
         <b-button v-on:click="actionDeleteArticle(artikels._id)" variant="danger" size="sm">Delete</b-button>
       </div>
     </div>
@@ -204,4 +274,32 @@ Vue.component('artikel',{
 })
 
 
+function onSignIn(googleUser) {
+  let id_token = googleUser.getAuthResponse().id_token;
+
+  axios.post(serverURL+'/users/googleLogin',{
+      token: id_token
+    })
+  .then(({data}) => {
+    app.token = data
+    app.isLogin = '1'
+
+    localStorage.setItem('token', data)
+    
+  })
+  .catch((jqXHR, textStatus) => {
+    console.log(`request failed ${textStatus}`)
+  })
+}
+
+function signOut() {
+  var auth2 = gapi.auth2.getAuthInstance()
+    auth2.signOut().then(function () {
+      app.statusShow = '0'
+      app.token = ''
+      console.log('User signed out.')
+    });
+}
+
 Vue.config.devtools = true;
+

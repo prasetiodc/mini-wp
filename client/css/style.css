@@ -48,14 +48,15 @@ body{
 
 #container{
     margin-left: 25%;
-    padding-top: 80px;
+    padding-top: 45px;
+    padding-bottom: 45px;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
 #navbar-left{
-    margin-top: 60px;
+    margin-top: 5px;
     height: 100%;
     position: fixed;
     overflow: scroll;
@@ -119,4 +120,29 @@ h3{
 
 .list-group-item.list-group-item-action{
     width: 110%
+}
+
+#signinForm, #signupForm{
+    border: 1px solid rgb(219, 217, 217);
+    width: 300px;
+    display: flex;
+    padding: 20px;
+}
+
+#buttonLogin{
+    margin-top: 20px; 
+    display: flex;
+    justify-content: center;
+}
+
+.formMiddle{
+    margin-top: 50px;
+    display: flex;
+    justify-content: center;
+}
+
+#buttonSignup{
+    margin-top: 20px; 
+    display: flex;
+    justify-content: space-between;
 }
