@@ -2,8 +2,8 @@ const Model = require('../models/article')
 
 class Article{
     static findAll(req, res){
-        Model.findOne({author:req.userId})        
-        // Model.find()
+        // Model.findOne({author:req.userId})        
+        Model.find()
         .then(data=>{
             res.status(200).json(data)
         })
