@@ -2,7 +2,8 @@ const Model = require('../models/article')
 
 class Article{
     static findAll(req, res){
-        Model.findOne({userId:req.userId})
+        // Model.findOne({author:req.userId})
+        Model.find()
         .then(data=>{
             res.status(200).json(data)
         })
@@ -19,21 +20,23 @@ class Article{
         // console.log(req.file.cloudStoragePublicUrl,"   URL FILE");
         // res.status(200).json(req.userId)
         
-        // let newArticle = new Model({
-        //     title: req.body.title,
-        //     content: req.body.content,
-        //     created_at: new Date,
-        //     status: req.body.status,
-        //     author: req.userId,
-        //     featured_image: req.file.cloudStoragePublicUrl,
-        // })
-        // Model.create(newArticle)
-        // .then(data=>{
-        //     res.status(201).json(data)
-        // })
-        // .catch(err=>{
-        //     res.status(500).json(err)
-        // })
+        let newArticle = new Model({
+            title: req.body.title,
+            content: req.body.content,
+            created_at: new Date,
+            status: req.body.status,
+            author: req.userId,
+            // featured_image: req.file.cloudStoragePublicUrl,
+        })
+        Model.create(newArticle)
+        .then(data=>{
+            console.log("INPUT SUKSES");
+            
+            res.status(201).json(data)
+        })
+        .catch(err=>{
+            res.status(500).json(err)
+        })
     }
 
     static findOne(req, res){

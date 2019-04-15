@@ -83,8 +83,13 @@ let app = new Vue({
 
     addArticle(){
       console.log(this.featured_image);
+
+      const fd = new FormData()
+      fd.append('image', this.featured_image, this.featured_image.name)
+
+      this.featured_image = fd
       
-      axios.post(serverURL+'/articles', {title: this.title, content: this.content, status: this.status, featured_image:this.featured_image}, 
+      axios.post(serverURL+'/articles', {title: this.title, content: this.content, status: this.status, featured_image: this.featured_image}, 
       {
         headers: {
           auth : this.token
@@ -246,6 +251,21 @@ Vue.component('articles-draft', {
 
 Vue.component('artikel',{
   props: ['artikels'],
+  data(){
+    return {
+      id : artikels._id,
+      title : atrikels.title,
+      content : artikels.content,
+      status : artikels.status,
+      // image : artikels.featured_image
+    }
+  },
+  created(){
+    this.id = artikels._id,
+    this.title = atrikels.title,
+    this.content = artikels.content,
+    this.status = artikels.status
+  },
   methods:{
     editArticle(id, title, content, status){
       this.$emit('edit', {id, title, content, status})
@@ -261,14 +281,20 @@ Vue.component('artikel',{
       <h4 class="card-title">{{ artikels.title }}</h4>
     </b-card-text>
       <div>
-        <!--<b-button variant="success" size="sm">Edit</b-button>-->
+      <b-button v-b-modal.modal-scrollable size="sm">Detail</b-button>
+         
         <b-button v-on:click="editArticle(artikels._id, artikels.title, artikels.content, artikels.status)" variant="success" size="sm">Edit</b-button>
         <b-button v-on:click="actionDeleteArticle(artikels._id)" variant="danger" size="sm">Delete</b-button>
       </div>
     </div>
-    <div>
-      <div class="card-text" v-html="artikels.content"></div>
-    </div>
+    <div class="card-text" v-html="artikels.content"></div>
+
+    <b-modal id="modal-scrollable" scrollable title="Scrollable Content">
+    <p class="my-4">
+      <div class="card-text" v-html="content"></div>
+    </p>
+  </b-modal> 
+    
   </div>
   `
 })
@@ -282,10 +308,10 @@ function onSignIn(googleUser) {
     })
   .then(({data}) => {
     app.token = data
-    app.isLogin = '1'
+    app.isLogin = '1'    
 
     localStorage.setItem('token', data)
-    
+
   })
   .catch((jqXHR, textStatus) => {
     console.log(`request failed ${textStatus}`)
