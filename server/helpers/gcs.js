@@ -17,7 +17,7 @@ const getPublicUrl = (filename) => {
 
 const sendUploadToGCS = (req, res, next) => {
   console.log("MASUK UPLOAD GCS");
-  console.log(req.file);
+  console.log(req);
   
   if (!req.file) {
     return next()

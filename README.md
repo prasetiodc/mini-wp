@@ -7,7 +7,6 @@
 |/users/login  |POST  |email: String , password: String |Success: Login as a user, <br/>Error: Internal server error |Login via email in Database|
 |/users/googleLogin  |POST  |email: String , password: String  |Success: Login as a user via Google, <br />Error: Internal server error | Login via Google acount|
 
-
 ## Routes Articles
 |Routes|HTTP Method|Request|Response|Description|
 |----|----|----|----|----|----|
