@@ -85,13 +85,14 @@ let app = new Vue({
       console.log(this.featured_image);
 
       const fd = new FormData()
-      fd.append('image', this.featured_image, this.featured_image.name)
+      fd.append('featured_image', this.featured_image, this.featured_image.name)
+      fd.append('title', this.title)
+      fd.append('content', this.content)
+      fd.append('status', this.status)
 
-      this.featured_image = fd
-      console.log(this.featured_image);
+      console.log(fd);
       
-      
-      axios.post(serverURL+'/articles', {title: this.title, content: this.content, status: this.status, featured_image: this.featured_image}, 
+      axios.post(serverURL+'/articles', fd, 
       {
         headers: {
           auth : this.token
@@ -160,7 +161,7 @@ let app = new Vue({
     deleteArticle(id){
       this.id = id
     },
-
+ 
     showSearch(){
       if(!this.isSearch) this.isSearch = "true"
       else this.isSearch = ""
@@ -292,6 +293,7 @@ Vue.component('artikel',{
       </p>
     </b-modal>
     
+  </div>
   </div>
   `
 })

@@ -8,7 +8,7 @@ const port = 3000
 
 let app = express()
 
-mongoose.connect('mongodb://localhost/miniWp', {useNewUrlParser: true})
+mongoose.connect(process.env.MONGOD_DB, {useNewUrlParser: true})
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(cors())

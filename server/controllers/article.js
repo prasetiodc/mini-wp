@@ -26,12 +26,10 @@ class Article{
             created_at: new Date,
             status: req.body.status,
             author: req.userId,
-            // featured_image: req.file.cloudStoragePublicUrl,
+            featured_image: req.file.cloudStoragePublicUrl,
         })
         Model.create(newArticle)
-        .then(data=>{
-            console.log("INPUT SUKSES");
-            
+        .then(data=>{            
             res.status(201).json(data)
         })
         .catch(err=>{
